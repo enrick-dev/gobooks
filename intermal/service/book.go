@@ -31,7 +31,7 @@ func (s *BookService) CreateBook(book *Book) error {
 
 }
 
-func (s *BookService) GetBooks() ([]Book, err) {
+func (s *BookService) GetBooks() ([]Book, error) {
 	query := `
 		SELECT id, title, author, genre FROM books
 	`
