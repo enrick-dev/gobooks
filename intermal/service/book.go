@@ -66,3 +66,12 @@ func (s *BookService) GetBookByID(id int) (*Book, error) {
 	}
 	return &book, nil
 }
+
+func (s *BookService) UpdateBook(book *Book) error {
+	query := `
+		UPDATE books SET title = ?, author = ?, genre = ?
+		WHERE id = ?
+	`
+	_, err := s.db.Exec(query, book.Title, book.Author, book.Genre, book.ID)
+	return err
+}
