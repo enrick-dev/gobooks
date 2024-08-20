@@ -75,3 +75,11 @@ func (s *BookService) UpdateBook(book *Book) error {
 	_, err := s.db.Exec(query, book.Title, book.Author, book.Genre, book.ID)
 	return err
 }
+
+func (s *BookService) DeleteBook(id int) error {
+	query := `
+		DELETE FROM books WHERE id = ?
+	`
+	_, err := s.db.Exec(query, id)
+	return err
+}
