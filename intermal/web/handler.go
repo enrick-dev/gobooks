@@ -62,3 +62,27 @@ func (h *BookHandlers) GetBookByID(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "aplication/json")
 	json.NewEncoder(w).Encode(book)
 }
+
+func (h *BookHandlers) UpdateBook(w http.ResponseWriter, r *http.Request) {
+	idStr := r.PathValue("id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		http.Error(w, "invalid book ID", http.StatusBadRequest)
+		return
+	}
+
+	var book service.Book
+	if err := json.NewDecoder(r.Body).Decode(&book); err != nil {
+		http.Error(w, "invalid request payload", http.StatusBadRequest)
+		return
+	}
+	book.ID = id
+
+	if err := h.service.UpdateBook(&book); err != nil {
+		http.Error(w, "failed to update book", http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(book)
+}
