@@ -51,3 +51,18 @@ func (s *BookService) GetBooks() ([]Book, err) {
 	}
 	return books, nil
 }
+
+func (s *BookService) GetBookByID(id int) (*Book, error) {
+	query := `
+		SELECT id, title, author, genre FROM books
+		WHERE id = ?
+	`
+	row := s.db.QueryRow(query, id)
+
+	var book Book
+	err := row.Scan(&book.ID, &book.Title, &book.Author, &book.Genre)
+	if err != nil {
+		return nil, err
+	}
+	return &book, nil
+}
