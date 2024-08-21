@@ -6,10 +6,11 @@ import (
 
 	"github.com/enrick-dev/gobooks.git/intermal/service"
 	"github.com/enrick-dev/gobooks.git/intermal/web"
+	_ "github.com/mattn/go-sqlite3"
 )
 
 func main() {
-	db, err := sql.Open("sqlite34", "./books.db")
+	db, err := sql.Open("sqlite3", "./books.db")
 	if err != nil {
 		panic(err)
 	}
@@ -22,9 +23,9 @@ func main() {
 	router := http.NewServeMux()
 	router.HandleFunc("GET /books", bookHandlers.GetBooks)
 	router.HandleFunc("POST /books", bookHandlers.CreateBook)
-	router.HandleFunc("GET /books/{ID}", bookHandlers.GetBookByID)
-	router.HandleFunc("PUT /books/{ID}", bookHandlers.UpdateBook)
-	router.HandleFunc("DELETE /books/{ID}", bookHandlers.DeleteBook)
+	router.HandleFunc("GET /books/{id}", bookHandlers.GetBookByID)
+	router.HandleFunc("PUT /books/{id}", bookHandlers.UpdateBook)
+	router.HandleFunc("DELETE /books/{id}", bookHandlers.DeleteBook)
 
 	http.ListenAndServe(":8080", router)
 }
