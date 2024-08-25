@@ -1,6 +1,8 @@
 package service
 
-import "database/sql"
+import (
+	"database/sql"
+)
 
 type Book struct {
 	ID     int
